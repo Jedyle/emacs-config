@@ -3,7 +3,7 @@
 ;; LOCAL VARIABLES
 
 (setq custom-elpy-venv "/home/dev1/Mindee/Envs/elpy-rpc-venv")
-(setq custom-org-dir "~/org/")
+(setq custom-org-dir "~/Perso/Org/")
 (setq custom-workon-home "~/Mindee/Envs")
 
 ;; BASIC
@@ -58,17 +58,7 @@
 		  (quote
 		   ("+@work"))))))
       nil nil))))
- '(org-capture-templates
-   (quote
-    (("a" "Architecture entry" entry
-      (file+olp (concat custom-org-dir "organizer.org") "Projects" "Architecture")
-      "* TODO")
-     ("i" "Inbox entry" entry
-      (file+headline (concat custom-org-dir "organizer.org") "Inbox")
-      "* NOTE :")
-     ("d" "Add TODO for Deployments" entry
-      (file+olp (concat custom-org-dir "organizer.org") "Projects" "Deployment")
-      "* TODO "))))
+ '(org-agenda-files (quote ("~/Perso/Org/work.org")))
  '(package-selected-packages
    (quote
     (go-mode emojify magit feature-mode gherkin-mode nginx-mode markdown-mode fancy-dabbrev groovy-mode jenkins dockerfile-mode resize-window yasnippet-snippets gnu-elpa-keyring-update multiple-cursors elpy company-terraform terraform-mode docker-compose-mode treemacs-projectile treemacs flycheck jedi use-package helm-projectile projectile ace-window))))
@@ -206,16 +196,79 @@
 (require 'org)
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
+(define-key global-map "\C-cb" 'org-iswitchb)
 (setq org-log-done t)
-
-(defun gtd ()
-  (interactive)
-  (find-file "~/org/organizer.org")
-  )
 
 (global-set-key (kbd "C-c c") 'org-capture)
 
-(setq org-agenda-files (list (concat custom-org-dir "organizer.org")))
+(setq org-agenda-files (list custom-org-dir))
+(setq org-tag-alist '(("@WORK" . ?w) ("@PERSO" . ?p)))                
+
+(setq org-todo-keywords
+      (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
+              (sequence "WAITING(w@/!)|" "CANCELLED(c@/!)" "PHONE(p)" "MEETING(m)"))))
+
+(setq org-todo-keyword-faces
+      (quote (("TODO" :foreground "orange red" :weight bold)
+              ("NEXT" :foreground "blue" :weight bold)
+              ("DONE" :foreground "forest green" :weight bold)
+              ("WAITING" :foreground "orange" :weight bold)
+              ("CANCELLED" :foreground "forest green" :weight bold)
+              ("MEETING" :foreground "forest green" :weight bold)
+              ("PHONE" :foreground "forest green" :weight bold))))
+
+(setq custom-capture-file (concat custom-org-dir "capture/capture.org"))
+(setq custom-journal-file (concat custom-org-dir "journal.org"))
+
+(setq org-capture-templates
+      (quote (("t" "todo" entry (file custom-capture-file)
+               "* TODO %?\n%U\n%a\n" :clock-in t :clock-resume t)
+              ("n" "note" entry (file custom-capture-file)
+               "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)
+              ("j" "Journal" entry (file+datetree custom-journal-file)
+               "* %?\n%U\n" :clock-in t :clock-resume t)
+              ("w" "org-protocol" entry (file custom-capture-file)
+               "* TODO Review %c\n%U\n" :immediate-finish t)
+	      )))
+
+;; REFILING
+
+
+; Targets include this file and any file contributing to the agenda - up to 9 levels deep
+(setq org-refile-targets (quote ((nil :maxlevel . 9)
+                                 (org-agenda-files :maxlevel . 9))))
+
+; Use full outline paths for refile targets - we file directly with IDO
+(setq org-refile-use-outline-path t)
+
+; Targets complete directly with IDO
+(setq org-outline-path-complete-in-steps nil)
+
+; Allow refile to create parent tasks with confirmation
+(setq org-refile-allow-creating-parent-nodes (quote confirm))
+
+; Use IDO for both buffer and file completion and ido-everywhere to t
+(setq org-completion-use-ido t)
+(setq ido-everywhere t)
+(setq ido-max-directory-size 100000)
+(ido-mode (quote both))
+; Use the current window when visiting files and buffers with ido
+(setq ido-default-file-method 'selected-window)
+(setq ido-default-buffer-method 'selected-window)
+;; ; Use the current window for indirect buffer display
+(setq org-indirect-buffer-display 'current-window)
+
+;;;; Refile settings
+; Exclude DONE state tasks from refile targets
+(defun bh/verify-refile-target ()
+  "Exclude todo keywords with a done state from refile targets"
+  (not (member (nth 2 (org-heading-components)) org-done-keywords)))
+
+(setq org-refile-target-verify-function 'bh/verify-refile-target)
+
+;;; Disable key bindings that adds org file to an agenda (we do it manually instead)
+(define-key org-mode-map (kbd "C-c [") nil)
+(define-key org-mode-map (kbd "C-c ]") nil)
 
 ;; EMOJIFY
 
