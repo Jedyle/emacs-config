@@ -38,6 +38,10 @@
  ;; If there is more than one, they won't work right.
  )
 
+;; Completion
+(global-set-key (kbd "C-:") 'dabbrev-expand)
+(global-set-key (kbd "C-M-:") 'dabbrev-completion)
+
 ;; PROJECTILE
 
 (projectile-mode +1)
