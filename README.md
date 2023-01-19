@@ -10,3 +10,11 @@ M-x package-install-selected-packages
 ```
 
 This will install all the required packages
+
+# Install new package
+
+``` 
+M-x package-install <package>
+```
+
+Commit the changes
