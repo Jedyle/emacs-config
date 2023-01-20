@@ -3,10 +3,12 @@
 (load-theme 'tsdh-dark)
 (global-set-key (kbd "C-z") 'undo)
 (global-set-key (kbd "M-p") 'ace-window)
+(defalias 'yes-or-no-p 'y-or-n-p)
 
 ;; Marking text
 (delete-selection-mode t)
 (transient-mark-mode t)
+(setq-default show-trailing-whitespace t)
 
 ;; Remove backup files (*~)
 
@@ -30,7 +32,7 @@
  ;; If there is more than one, they won't work right.
  '(ispell-dictionary nil)
  '(package-selected-packages
-   '(markdown-mode terraform-mode hcl-mode dockerfile-mode multiple-cursors helm-projectile treemacs-magit treemacs-projectile projectile magit)))
+   '(yaml-mode yasnippet resize-window markdown-mode terraform-mode hcl-mode dockerfile-mode multiple-cursors helm-projectile treemacs-magit treemacs-projectile projectile magit)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
