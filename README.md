@@ -13,7 +13,7 @@ This will install all the required packages
 
 # Install new package
 
-``` 
+```
 M-x package-install <package>
 ```
 
