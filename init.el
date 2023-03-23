@@ -92,3 +92,6 @@
 
 ;; DIRENV MODE
 (direnv-mode)
+
+;; YASNIPPET
+(yas-global-mode 1)
