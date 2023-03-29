@@ -31,7 +31,7 @@
  ;; If there is more than one, they won't work right.
  '(ispell-dictionary nil)
  '(package-selected-packages
-   '(yasnippet-snippets direnv yaml-mode yasnippet resize-window markdown-mode terraform-mode hcl-mode dockerfile-mode multiple-cursors helm-projectile treemacs-magit treemacs-projectile projectile magit)))
+   '(gptel yasnippet-snippets direnv yaml-mode yasnippet resize-window markdown-mode terraform-mode hcl-mode dockerfile-mode multiple-cursors helm-projectile treemacs-magit treemacs-projectile projectile magit)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -95,3 +95,12 @@
 
 ;; YASNIPPET
 (yas-global-mode 1)
+
+;; GPT EL - ChatGPT
+(defun read-gptkey-file ()
+  "Read the content of `.gptkey' file in `~/.emacs.d/'."
+  (with-temp-buffer
+    (insert-file-contents (expand-file-name ".gptkey" (concat user-emacs-directory)))
+    (buffer-string)))
+(setq gptel-api-key (read-gptkey-file))
+(setq gptel-model "gpt-3.5-turbo")

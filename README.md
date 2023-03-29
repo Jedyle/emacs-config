@@ -11,6 +11,10 @@ M-x package-install-selected-packages
 
 This will install all the required packages
 
+# GPT.el
+
+Create a file named .gptkey in this directory, containing the openAI key
+
 # Install new package
 
 ```
