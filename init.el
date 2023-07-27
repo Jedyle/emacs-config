@@ -31,7 +31,7 @@
  ;; If there is more than one, they won't work right.
  '(ispell-dictionary nil)
  '(package-selected-packages
-   '(gptel yasnippet-snippets direnv yaml-mode yasnippet resize-window markdown-mode terraform-mode hcl-mode dockerfile-mode multiple-cursors helm-projectile treemacs-magit treemacs-projectile projectile magit)))
+   '(web-mode elpy lorem-ipsum gptel yasnippet-snippets direnv yaml-mode yasnippet resize-window markdown-mode terraform-mode hcl-mode dockerfile-mode multiple-cursors helm-projectile treemacs-magit treemacs-projectile projectile magit)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -85,10 +85,14 @@
 (global-set-key (kbd "C-c C-c") 'mc/edit-lines)
 (global-set-key (kbd "C->") 'mc/mark-next-like-this)
 (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-(global-set-key (kbd "C-c <") 'mc/mark-all-like-this)
+(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
 
 ;; ELECTRIC PAIR MODE
 (electric-pair-mode 1)
+
+;; ELPY
+
+(elpy-enable)
 
 ;; DIRENV MODE
 (direnv-mode)
