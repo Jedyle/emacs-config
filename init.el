@@ -31,13 +31,18 @@
  ;; If there is more than one, they won't work right.
  '(ispell-dictionary nil)
  '(package-selected-packages
-   '(web-mode elpy lorem-ipsum gptel yasnippet-snippets direnv yaml-mode yasnippet resize-window markdown-mode terraform-mode hcl-mode dockerfile-mode multiple-cursors helm-projectile treemacs-magit treemacs-projectile projectile magit)))
+   '(typescript-mode web-mode elpy lorem-ipsum gptel yasnippet-snippets direnv yaml-mode yasnippet resize-window markdown-mode terraform-mode hcl-mode dockerfile-mode multiple-cursors helm-projectile treemacs-magit treemacs-projectile projectile magit)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
+;; WEB MODE
+
+(add-to-list 'auto-mode-alist '("\\.jsx?$" . web-mode)) ;; auto-enable for .js/.jsx files
+(setq web-mode-content-types-alist '(("jsx" . "\\.js[x]?\\'")))
 
 ;; ACE WINDOW
 (global-set-key (kbd "M-p") 'ace-window)

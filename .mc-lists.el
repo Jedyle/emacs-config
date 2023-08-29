@@ -3,13 +3,9 @@
 
 (setq mc/cmds-to-run-for-all
       '(
-	electric-pair-delete-pair
-	indent-for-tab-command
-	yaml-electric-backspace
+	markdown-outdent-or-delete
 	))
 
 (setq mc/cmds-to-run-once
       '(
-	mouse-set-region
-	yaml-electric-dash-and-dot
 	))
