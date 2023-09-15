@@ -3,7 +3,11 @@
 
 (setq mc/cmds-to-run-for-all
       '(
+	elpy-nav-forward-indent
 	markdown-outdent-or-delete
+	sgml-slash
+	yaml-electric-backspace
+	yaml-electric-dash-and-dot
 	))
 
 (setq mc/cmds-to-run-once

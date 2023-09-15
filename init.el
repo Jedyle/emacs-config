@@ -31,7 +31,7 @@
  ;; If there is more than one, they won't work right.
  '(ispell-dictionary nil)
  '(package-selected-packages
-   '(typescript-mode web-mode elpy lorem-ipsum gptel yasnippet-snippets direnv yaml-mode yasnippet resize-window markdown-mode terraform-mode hcl-mode dockerfile-mode multiple-cursors helm-projectile treemacs-magit treemacs-projectile projectile magit)))
+   '(groovy-mode gradle-mode rjsx-mode flycheck tide typescript-mode web-mode elpy lorem-ipsum gptel yasnippet-snippets direnv yaml-mode yasnippet resize-window markdown-mode terraform-mode hcl-mode dockerfile-mode multiple-cursors helm-projectile treemacs-magit treemacs-projectile projectile magit)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -39,10 +39,48 @@
  ;; If there is more than one, they won't work right.
  )
 
-;; WEB MODE
+(add-hook 'after-init-hook #'global-flycheck-mode)
 
-(add-to-list 'auto-mode-alist '("\\.jsx?$" . web-mode)) ;; auto-enable for .js/.jsx files
-(setq web-mode-content-types-alist '(("jsx" . "\\.js[x]?\\'")))
+;; WEB (TYPESCRIPT)
+
+(defun setup-tide-mode ()
+  (interactive)
+  (tide-setup)
+  (flycheck-mode +1)
+  (setq flycheck-check-syntax-automatically '(save mode-enabled))
+  (eldoc-mode +1)
+  (tide-hl-identifier-mode +1)
+  ;; company is an optional dependency. You have to
+  ;; install it separately via package-install
+  ;; `M-x package-install [ret] company`
+  ;; (company-mode +1)
+  )
+
+;; JSX
+(add-to-list 'auto-mode-alist '("\\.jsx?\\'" . rjsx-mode))
+
+;; aligns annotation to the right hand side
+(setq company-tooltip-align-annotations t)
+
+;; formats the buffer before saving
+(add-hook 'before-save-hook 'tide-format-before-save)
+
+;; if you use typescript-mode
+(add-hook 'typescript-mode-hook #'setup-tide-mode)
+
+(require 'web-mode)
+(add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
+(add-hook 'web-mode-hook
+          (lambda ()
+            (when (string-equal "tsx" (file-name-extension buffer-file-name))
+              (setup-tide-mode))))
+;; enable typescript-tslint checker
+;; (flycheck-add-mode 'typescript-tslint 'web-mode)
+
+;; if you use typescript-mode
+(add-hook 'typescript-mode-hook 'setup-tide-mode)
+;; if you use treesitter based typescript-ts-mode (emacs 29+)
+;; (add-hook 'typescript-ts-mode-hook 'setup-tide-mode)
 
 ;; ACE WINDOW
 (global-set-key (kbd "M-p") 'ace-window)
