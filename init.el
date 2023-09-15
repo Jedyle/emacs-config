@@ -17,32 +17,32 @@
 ;; remove lock files (issues with npm)
 (setq create-lockfiles nil)
 
-;; PACKAGES
-(require 'package)
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-;; Comment/uncomment this line to enable MELPA Stable if desired.  See `package-archive-priorities`
-;; and `package-pinned-packages`. Most users will not need or want to do this.
-;;(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
-(package-initialize)
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(ispell-dictionary nil)
- '(package-selected-packages
-   '(groovy-mode gradle-mode rjsx-mode flycheck tide typescript-mode web-mode elpy lorem-ipsum gptel yasnippet-snippets direnv yaml-mode yasnippet resize-window markdown-mode terraform-mode hcl-mode dockerfile-mode multiple-cursors helm-projectile treemacs-magit treemacs-projectile projectile magit)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+;; (add-hook 'after-init-hook #'global-flycheck-mode)
 
-(add-hook 'after-init-hook #'global-flycheck-mode)
+;; STRAIGHT.EL (package manager)
+
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 6))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+
+;; COPILOT
+
+;; COMPANY
+
+(straight-use-package 'company)
 
 ;; WEB (TYPESCRIPT)
 
+(straight-use-package 'tide)
 (defun setup-tide-mode ()
   (interactive)
   (tide-setup)
@@ -53,11 +53,7 @@
   ;; company is an optional dependency. You have to
   ;; install it separately via package-install
   ;; `M-x package-install [ret] company`
-  ;; (company-mode +1)
-  )
-
-;; JSX
-(add-to-list 'auto-mode-alist '("\\.jsx?\\'" . rjsx-mode))
+  (company-mode +1))
 
 ;; aligns annotation to the right hand side
 (setq company-tooltip-align-annotations t)
@@ -66,23 +62,14 @@
 (add-hook 'before-save-hook 'tide-format-before-save)
 
 ;; if you use typescript-mode
-(add-hook 'typescript-mode-hook #'setup-tide-mode)
-
-(require 'web-mode)
-(add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
-(add-hook 'web-mode-hook
-          (lambda ()
-            (when (string-equal "tsx" (file-name-extension buffer-file-name))
-              (setup-tide-mode))))
-;; enable typescript-tslint checker
-;; (flycheck-add-mode 'typescript-tslint 'web-mode)
-
-;; if you use typescript-mode
-(add-hook 'typescript-mode-hook 'setup-tide-mode)
+;; (add-hook 'typescript-mode-hook #'setup-tide-mode)
 ;; if you use treesitter based typescript-ts-mode (emacs 29+)
-;; (add-hook 'typescript-ts-mode-hook 'setup-tide-mode)
+;; (add-hook 'typescript-ts-mode-hook #'setup-tide-mode)
 
 ;; ACE WINDOW
+
+(straight-use-package 'ace-window)
+
 (global-set-key (kbd "M-p") 'ace-window)
 (defvar aw-dispatch-alist
   '((?d aw-delete-window "Delete Window")
@@ -105,6 +92,8 @@
 
 ;; PROJECTILE
 
+(straight-use-package 'projectile)
+(straight-use-package 'helm-projectile)
 (projectile-mode +1)
 (setq projectile-indexing-method 'native)
 (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
@@ -116,34 +105,46 @@
 (add-to-list 'projectile-globally-ignored-directories "*/node_modules")
 
 ;; TREEMACS3
+(straight-use-package 'treemacs)
+(straight-use-package 'treemacs-projectile)
 (global-set-key (kbd "M-t") 'treemacs)
 (global-set-key (kbd "M-0") 'treemacs-select-window)
 (global-set-key (kbd "C-c C-p p") 'treemacs-projectile)
 
 ;; Magit
+(straight-use-package 'magit)
 (global-set-key (kbd "C-x g") 'magit-status)
 
 ;; MULTIPLE CURSORS
 
+(straight-use-package 'multiple-cursors)
 (global-set-key (kbd "C-c C-c") 'mc/edit-lines)
 (global-set-key (kbd "C->") 'mc/mark-next-like-this)
 (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
 (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
 
 ;; ELECTRIC PAIR MODE
+
 (electric-pair-mode 1)
 
 ;; ELPY
 
-(elpy-enable)
+;; (elpy-enable)
 
 ;; DIRENV MODE
+
+(straight-use-package 'direnv)
 (direnv-mode)
 
 ;; YASNIPPET
+
+(straight-use-package 'yasnippet)
 (yas-global-mode 1)
 
 ;; GPT EL - ChatGPT
+
+(straight-use-package 'gptel)
+
 (defun read-gptkey-file ()
   "Read the content of `.gptkey' file in `~/.emacs.d/'."
   (with-temp-buffer
