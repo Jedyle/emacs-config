@@ -1,3 +1,5 @@
+
+
 ;; THEME AND GLOBALS
 (setq inhibit-startup-message t)
 (load-theme 'tsdh-dark)
@@ -34,37 +36,43 @@
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
+;; USE PACKAGE
+(straight-use-package 'use-package)
+
 ;; COPILOT
+
+;; you can utilize :map :hook and :config to customize copilot
+
+(use-package copilot
+  :straight (:host github :repo "zerolfx/copilot.el" :files ("dist" "*.el"))
+  :ensure t)
+;; you can utilize :map :hook and :config to customize copilot
+
+(add-hook 'prog-mode-hook 'copilot-mode)
+
+;; Bind copilot-accept-completion to <tab> in copilot-mode
+(define-key copilot-completion-map (kbd "<backtab>") 'copilot-accept-completion)
+
+(add-to-list 'copilot-major-mode-alist '("docker-compose" . "dockercompose"))
+
+;; you can utilize :map :hook and :config to customize copilot
+
+;; Markdown
+
+(straight-use-package 'markdown-mode)
+
+;; DEVOPS
+
+;; Install terraform-mode, yaml-mode, dockerfile-mode, json-mode, markdown-mode with straight.el
+(straight-use-package 'terraform-mode)
+(straight-use-package 'yaml-mode)
+(straight-use-package 'docker-compose-mode)
+(straight-use-package 'dockerfile-mode)
+(straight-use-package 'json-mode)
 
 ;; COMPANY
 
 (straight-use-package 'company)
-
-;; WEB (TYPESCRIPT)
-
-(straight-use-package 'tide)
-(defun setup-tide-mode ()
-  (interactive)
-  (tide-setup)
-  (flycheck-mode +1)
-  (setq flycheck-check-syntax-automatically '(save mode-enabled))
-  (eldoc-mode +1)
-  (tide-hl-identifier-mode +1)
-  ;; company is an optional dependency. You have to
-  ;; install it separately via package-install
-  ;; `M-x package-install [ret] company`
-  (company-mode +1))
-
-;; aligns annotation to the right hand side
-(setq company-tooltip-align-annotations t)
-
-;; formats the buffer before saving
-(add-hook 'before-save-hook 'tide-format-before-save)
-
-;; if you use typescript-mode
-;; (add-hook 'typescript-mode-hook #'setup-tide-mode)
-;; if you use treesitter based typescript-ts-mode (emacs 29+)
-;; (add-hook 'typescript-ts-mode-hook #'setup-tide-mode)
 
 ;; ACE WINDOW
 
@@ -139,6 +147,7 @@
 ;; YASNIPPET
 
 (straight-use-package 'yasnippet)
+(straight-use-package 'yasnippet-snippets)
 (yas-global-mode 1)
 
 ;; GPT EL - ChatGPT
@@ -152,3 +161,30 @@
     (buffer-string)))
 (setq gptel-api-key (read-gptkey-file))
 (setq gptel-model "gpt-3.5-turbo")
+
+;; WEB (TYPESCRIPT)
+
+(straight-use-package 'tide)
+(defun setup-tide-mode ()
+  (interactive)
+  (tide-setup)
+  (flycheck-mode +1)
+  (setq flycheck-check-syntax-automatically '(save mode-enabled))
+  (eldoc-mode +1)
+  (tide-hl-identifier-mode +1)
+  ;; company is an optional dependency. You have to
+  ;; install it separately via package-install
+  ;; `M-x package-install [ret] company`
+  (company-mode +1))
+
+;; aligns annotation to the right hand side
+(setq company-tooltip-align-annotations t)
+
+;; formats the buffer before saving
+(add-hook 'before-save-hook 'tide-format-before-save)
+
+;; if you use typescript-mode
+;; (add-hook 'typescript-mode-hook #'setup-tide-mode)
+;; if you use treesitter based typescript-ts-mode (emacs 29+)
+;; (add-hook 'typescript-ts-mode-hook #'setup-tide-mode)
+
