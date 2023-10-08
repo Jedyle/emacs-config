@@ -19,8 +19,6 @@
 ;; remove lock files (issues with npm)
 (setq create-lockfiles nil)
 
-;; (add-hook 'after-init-hook #'global-flycheck-mode)
-
 ;; STRAIGHT.EL (package manager)
 
 (defvar bootstrap-version)
@@ -38,6 +36,14 @@
 
 ;; USE PACKAGE
 (straight-use-package 'use-package)
+
+;; FLYCHECK
+(use-package flycheck
+  :straight t
+  :ensure t
+  :init (global-flycheck-mode))
+(add-hook 'after-init-hook #'global-flycheck-mode)
+(setq flycheck-python-flake8-executable "~/.local/bin/flake8")
 
 ;; COPILOT
 
@@ -137,7 +143,14 @@
 
 ;; ELPY
 
-;; (elpy-enable)
+(straight-use-package 'elpy)
+(elpy-enable)
+(when (load "flycheck" t t)
+  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
+  (add-hook 'elpy-mode-hook 'flycheck-mode))
+(add-hook 'elpy-mode-hook (lambda ()
+                            (add-hook 'before-save-hook
+                                      'elpy-black-fix-code nil t)))
 
 ;; DIRENV MODE
 
@@ -164,7 +177,11 @@
 
 ;; WEB (TYPESCRIPT)
 
+(straight-use-package 'web-mode)
+(straight-use-package 'typescript-mode)
+
 (straight-use-package 'tide)
+
 (defun setup-tide-mode ()
   (interactive)
   (tide-setup)
@@ -184,7 +201,30 @@
 (add-hook 'before-save-hook 'tide-format-before-save)
 
 ;; if you use typescript-mode
-;; (add-hook 'typescript-mode-hook #'setup-tide-mode)
+(add-hook 'typescript-mode-hook #'setup-tide-mode)
 ;; if you use treesitter based typescript-ts-mode (emacs 29+)
 ;; (add-hook 'typescript-ts-mode-hook #'setup-tide-mode)
 
+(add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
+(add-hook 'web-mode-hook
+          (lambda ()
+            (when (string-equal "tsx" (file-name-extension buffer-file-name))
+              (setup-tide-mode))))
+
+;; enable typescript-tslint checker
+(flycheck-add-mode 'typescript-tslint 'web-mode)
+
+;; Groovy Mode
+(straight-use-package 'groovy-mode)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(elpy-syntax-check-command "~/.local/bin/flake8"))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

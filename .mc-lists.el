@@ -3,8 +3,11 @@
 
 (setq mc/cmds-to-run-for-all
       '(
+	copilot-accept-completion
 	elpy-nav-forward-indent
+	indent-for-tab-command
 	markdown-outdent-or-delete
+	multiple-cursors-mode
 	sgml-slash
 	yaml-electric-backspace
 	yaml-electric-dash-and-dot
