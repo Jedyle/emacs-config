@@ -3,12 +3,17 @@
 
 (setq mc/cmds-to-run-for-all
       '(
+	comment-dwim
 	copilot-accept-completion
+	electric-newline-and-maybe-indent
+	electric-pair-delete-pair
+	elpy-nav-backward-indent
 	elpy-nav-forward-indent
 	indent-for-tab-command
 	markdown-outdent-or-delete
 	multiple-cursors-mode
 	sgml-slash
+	treemacs-leftclick-action
 	yaml-electric-backspace
 	yaml-electric-dash-and-dot
 	))

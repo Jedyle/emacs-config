@@ -71,6 +71,9 @@
 
 ;; Install terraform-mode, yaml-mode, dockerfile-mode, json-mode, markdown-mode with straight.el
 (straight-use-package 'terraform-mode)
+(add-to-list 'exec-path "~/.tfenv/bin")
+(setq terraform-format-on-save t)
+
 (straight-use-package 'yaml-mode)
 (straight-use-package 'docker-compose-mode)
 (straight-use-package 'dockerfile-mode)
@@ -126,7 +129,9 @@
 (global-set-key (kbd "C-c C-p p") 'treemacs-projectile)
 
 ;; Magit
-(straight-use-package 'magit)
+;; Pinned to 3.3.0, because latest versions are broken with emacs 27
+(straight-use-package
+ '(magit :type git :host github :repo "magit/magit" :commit "f44f6c14"))
 (global-set-key (kbd "C-x g") 'magit-status)
 
 ;; MULTIPLE CURSORS
@@ -228,3 +233,6 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
+;; PHP Mode
+(straight-use-package 'php-mode)
