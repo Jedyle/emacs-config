@@ -4,4 +4,5 @@ auto-save-list
 projectile-bookmarks.eld
 transient
 .gptkey
-straight
+straight/*
+!straight/versions

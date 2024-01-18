@@ -17,3 +17,11 @@ My package manager is straight.el
 ```
 
 Commit the changes
+
+## Cheat Sheet
+
+Straight.el
+reload lock file : M-x straight-thaw-versions
+
+Debugging a Lisp error
+M-x toogle-debug-on-error
