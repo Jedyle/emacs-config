@@ -103,6 +103,9 @@
     (?? aw-show-dispatch-help))
   "List of actions for `aw-dispatch-default'.")
 
+;; Bind keys for laptop without numpad
+(setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
+
 ;; Completion
 (global-set-key (kbd "C-:") 'dabbrev-expand)
 (global-set-key (kbd "C-M-:") 'dabbrev-completion)
@@ -125,7 +128,11 @@
 (straight-use-package 'treemacs)
 (straight-use-package 'treemacs-projectile)
 (global-set-key (kbd "M-t") 'treemacs)
+
 (global-set-key (kbd "M-0") 'treemacs-select-window)
+;; Equivalent to M-0 for keyboard without numpad
+(global-set-key (kbd "M-à") 'treemacs-select-window)
+
 (global-set-key (kbd "C-c C-p p") 'treemacs-projectile)
 
 ;; Magit
