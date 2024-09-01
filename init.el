@@ -243,3 +243,6 @@
 
 ;; PHP Mode
 (straight-use-package 'php-mode)
+
+;; R mode
+(straight-use-package 'ess)
