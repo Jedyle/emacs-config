@@ -6,3 +6,4 @@ transient
 .gptkey
 straight/*
 !straight/versions
+custom.el

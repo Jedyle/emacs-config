@@ -5,6 +5,13 @@
 
 This will install all the required packages
 
+3. If you need to create some custom config for your current environment, create a custom.el file and add your config here.
+Example (needed to increase the font size for my small laptop)
+
+```custom.el
+(set-face-attribute 'default nil :height 140)
+```
+
 # GPT.el
 
 Create a file named .gptkey in this directory, containing the openAI key
@@ -25,3 +32,4 @@ reload lock file : M-x straight-thaw-versions
 
 Debugging a Lisp error
 M-x toogle-debug-on-error
+

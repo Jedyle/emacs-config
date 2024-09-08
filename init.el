@@ -61,6 +61,10 @@
 
 (add-to-list 'copilot-major-mode-alist '("docker-compose" . "dockercompose"))
 
+;; disable copilot-mode for R files
+
+(add-hook 'ess-mode-hook (lambda () (copilot-mode -1)))
+
 ;; you can utilize :map :hook and :config to customize copilot
 
 ;; Markdown
@@ -246,3 +250,7 @@
 
 ;; R mode
 (straight-use-package 'ess)
+
+;; Load custom.el if it exists
+
+(load "~/.emacs.d/custom.el" t)
