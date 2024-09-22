@@ -66,6 +66,12 @@
 (straight-use-package 'dockerfile-mode)
 (straight-use-package 'json-mode)
 
+;; Enable yaml mode on .yml.j2 files
+(add-to-list 'auto-mode-alist '("\\.yml.j2\\'" . yaml-mode))
+
+;; Jenkinsfile
+(add-to-list 'auto-mode-alist '("Jenkinsfile" . groovy-mode))
+
 ;; COMPANY
 
 (straight-use-package 'company)

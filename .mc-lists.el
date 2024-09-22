@@ -20,4 +20,5 @@
 
 (setq mc/cmds-to-run-once
       '(
+	magit-status
 	))

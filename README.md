@@ -27,6 +27,12 @@ My package manager is straight.el
 
 Commit the changes
 
+## Troubleshoot
+
+Debug error 'terraform not found' when install with tfenv :
+add `export PATH="$HOME/.tfenv/bin:$PATH"` to your .profile
+You need to reboot for changes to take effect.
+
 ## Cheat Sheet
 
 Straight.el
@@ -37,3 +43,6 @@ M-x toogle-debug-on-error
 
 Find a command for an existing shortcut
 C-h k
+
+Know which shorcut for a command :
+M-x where-is commandname
