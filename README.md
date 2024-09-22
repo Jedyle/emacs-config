@@ -12,6 +12,8 @@ Example (needed to increase the font size for my small laptop)
 (set-face-attribute 'default nil :height 140)
 ```
 
+Some pre-made files will be available (ex: thinkpad-yogax1.el)
+
 # GPT.el
 
 Create a file named .gptkey in this directory, containing the openAI key
@@ -33,3 +35,5 @@ reload lock file : M-x straight-thaw-versions
 Debugging a Lisp error
 M-x toogle-debug-on-error
 
+Find a command for an existing shortcut
+C-h k

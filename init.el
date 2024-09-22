@@ -9,7 +9,12 @@
 ;; Marking text
 (delete-selection-mode t)
 (transient-mark-mode t)
+
+;; Show trailing whitespace, except in term-mode
 (setq-default show-trailing-whitespace t)
+(add-hook 'term-mode-hook (lambda () (setq show-trailing-whitespace nil)))
+;; also don't show it when R console is open
+(add-hook 'inferior-ess-mode-hook (lambda () (setq show-trailing-whitespace nil)))
 
 ;; Remove backup files (*~)
 
@@ -61,9 +66,15 @@
 
 (add-to-list 'copilot-major-mode-alist '("docker-compose" . "dockercompose"))
 
+;; defaults 'copilot-indentation-alist for emacs lisp
+;; (add-to-list 'copilot-indentation-alist '(emacs-lisp-mode . 2))
+
 ;; disable copilot-mode for R files
 
 (add-hook 'ess-mode-hook (lambda () (copilot-mode -1)))
+
+;; Disable copilot mode indentation warning for emacs lisp
+(setq copilot-indent-offset-warning-disable t)
 
 ;; you can utilize :map :hook and :config to customize copilot
 
@@ -107,8 +118,13 @@
     (?? aw-show-dispatch-help))
   "List of actions for `aw-dispatch-default'.")
 
-;; Bind keys for laptop without numpad
-(setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
+(global-set-key (kbd "M-<left>")  'shrink-window-horizontally)
+(global-set-key (kbd "M-<right>") 'enlarge-window-horizontally)
+(global-set-key (kbd "M-<down>")  'shrink-window)
+(global-set-key (kbd "M-<up>")    'enlarge-window)
+
+;; Always dispatch
+;; (setq aw-dispatch-always t)
 
 ;; Completion
 (global-set-key (kbd "C-:") 'dabbrev-expand)
@@ -237,7 +253,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(elpy-syntax-check-command "~/.local/bin/flake8"))
+ '(elpy-syntax-check-command "~/.local/bin/flake8")
+ '(flycheck-lintr-linters "linters_with_defaults(indentation_linter(indent = 4L))"))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -250,6 +267,21 @@
 
 ;; R mode
 (straight-use-package 'ess)
+(setq ess-use-flymake nil)
+
+
+;; Split window vertically when opening R console
+;; (setq split-height-threshold nil)
+;; (setq split-width-threshold 0)
+(defun my-open-r-console-vertical ()
+  (interactive)
+  (split-window-right)
+  (R)
+  )
+
+
+(global-set-key (kbd "C-c r") 'my-open-r-console-vertical)
+
 
 ;; Load custom.el if it exists
 
