@@ -20,5 +20,6 @@
 
 (setq mc/cmds-to-run-once
       '(
+	ess-eval-region-or-function-or-paragraph-and-step
 	magit-status
 	))

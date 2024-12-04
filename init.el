@@ -183,7 +183,7 @@
     (insert-file-contents (expand-file-name ".gptkey" (concat user-emacs-directory)))
     (buffer-string)))
 (setq gptel-api-key (read-gptkey-file))
-(setq gptel-model "gpt-3.5-turbo")
+(setq gptel-model "gpt-4o")
 
 ;; WEB (TYPESCRIPT)
 
@@ -246,6 +246,9 @@
 ;; R mode
 (straight-use-package 'ess)
 (setq ess-use-flymake nil)
+
+;; add poly-R to manage Rmarkdown
+(straight-use-package 'poly-R)
 
 
 ;; Split window vertically when opening R console
