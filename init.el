@@ -108,30 +108,19 @@
 (global-set-key (kbd "C-:") 'dabbrev-expand)
 (global-set-key (kbd "C-M-:") 'dabbrev-completion)
 
-;; PROJECTILE
-
-(straight-use-package 'projectile)
-(straight-use-package 'helm-projectile)
-(projectile-mode +1)
-(setq projectile-indexing-method 'native)
-(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-(projectile-global-mode)
-(setq projectile-completion-system 'helm)
-(helm-projectile-on)
-
-(defvar projectile-globally-ignored-directories)
-(add-to-list 'projectile-globally-ignored-directories "*/node_modules")
+;; project.el
+(global-set-key (kbd "C-x p f") 'project-find-file)
+(global-set-key (kbd "C-x p p") 'project-switch-project)
+(global-set-key (kbd "C-x p r") 'project-query-replace-regexp)
 
 ;; TREEMACS3
 (straight-use-package 'treemacs)
-(straight-use-package 'treemacs-projectile)
+;; (straight-use-package 'treemacs-projectile)
 (global-set-key (kbd "M-t") 'treemacs)
 
 (global-set-key (kbd "M-0") 'treemacs-select-window)
 ;; Equivalent to M-0 for keyboard without numpad
 (global-set-key (kbd "M-à") 'treemacs-select-window)
-
-(global-set-key (kbd "C-c C-p p") 'treemacs-projectile)
 
 ;; Magit
 ;; Pinned to 3.3.0, because latest versions are broken with emacs 27
