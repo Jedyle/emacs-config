@@ -42,6 +42,12 @@
 ;; USE PACKAGE
 (straight-use-package 'use-package)
 
+;; ORG MODE
+
+(global-set-key (kbd "C-c l") #'org-store-link)
+(global-set-key (kbd "C-c a") #'org-agenda)
+(global-set-key (kbd "C-c c") #'org-capture)
+
 ;; FLYCHECK
 (use-package flycheck
   :straight t
@@ -221,7 +227,8 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(elpy-syntax-check-command "~/.local/bin/flake8")
- '(flycheck-lintr-linters "linters_with_defaults(indentation_linter(indent = 4L))"))
+ '(flycheck-lintr-linters "linters_with_defaults(indentation_linter(indent = 4L))")
+ '(org-agenda-files '("~/Projects/test-org-mode/todos.org")))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
